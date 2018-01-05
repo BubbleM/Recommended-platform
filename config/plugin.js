@@ -1,4 +1,6 @@
-'use strict';
+exports.static = true;
 
-// had enabled by egg
-// exports.static = true;
+exports.reactssr = {
+  enable: true,
+  package: 'egg-view-react-ssr'
+};
