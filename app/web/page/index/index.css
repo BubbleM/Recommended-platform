@@ -1,9 +1,25 @@
-#main{
+.showData{
+    position: relative;
+}
+.showData .leftUpload{
+    position: absolute;
+    left: 0;
+}
+.showData .leftUpload .codeEditor{
+    width: 550px;
+    height: 500px;
+    font-size: 15px;
+    color: #ffffff;
+    background: #272822;   
+}
+.showData .rightShow{
+    position: absolute;
+    right: 0;
+}
+.showData .rightShow .main{
     width: 600px;
     height: 500px;
 }
-.gadeEchart{
+.showData .rightShow .gadeEchart{
     width: 200px;
-    height: 400px;
-    float: right;
 }

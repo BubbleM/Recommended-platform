@@ -8,7 +8,6 @@ export default class List extends Component {
   render() {
     return <div className="container smart-container">
       <div className="row row-offcanvas row-offcanvas-right">
-        <div className='text'>测试数据如下</div>
         <div className="col-xs-12 col-sm-9">
           <ul className="smart-artiles" id="articleList">
             {this.props.list.map(function(item) {

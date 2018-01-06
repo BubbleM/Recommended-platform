@@ -9,6 +9,17 @@ import 'echarts/lib/chart/bar';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import './index.css';
+// 代码格式化
+import jsBeautify from 'js-beautify/js/lib/beautify'
+let ace // 代码上传区域编辑器样式
+if (typeof window !== 'undefined') {
+  ace = require('brace')
+  require('brace/mode/javascript')
+  require('brace/theme/monokai')
+  require('brace/ext/language_tools')
+  require('brace/ext/searchbox')
+//   require('./snippets')
+}
 
 export default class Home extends Component {
     constructor(props) {
@@ -30,6 +41,8 @@ export default class Home extends Component {
         };
         this.state = { option: options };
         this.formatData = this.formatData.bind(this);
+        this.submitData = this.submitData.bind(this);
+        this.getFormatData = this.getFormatData.bind(this);
     }
 
     formatData(res) {
@@ -44,11 +57,15 @@ export default class Home extends Component {
         option.series[0].data = yData;
         self.setState({option: option},function(){
             var myChart = Echarts.init(document.getElementById('main'));
-            myChart.setOption(option);
+            myChart.setOption(self.state.option);
         });
     }
 
     componentDidMount() {
+        let editor = ace.edit(this.refs.codeEditor);
+        editor.getSession().setMode('ace/mode/javascript');
+        editor.setTheme('ace/theme/monokai');
+
         let users = {'Angelica': {'Blues Traveler': 3.5, 'Broken Bells': 2.0, 'Norah Jones': 4.5, 'Phoenix': 5.0,
         'Slightly Stoopid': 1.5, 'The Strokes': 2.5, 'Vampire Weekend': 2.0},
 'Bill':     {'Blues Traveler': 2.0, 'Broken Bells': 3.5, 'Deadmau5': 4.0, 'Phoenix': 2.0,
@@ -76,13 +93,20 @@ export default class Home extends Component {
 
     render() {
         let self = this;
-        return <div>
+        return <div className='showData'>
             <Header></Header>
-            <div id='main' className='mains'></div>
-            <div className='gadeEchart'>
-                <button onClick={self.chooseChart.bind(self,'line')}>折线图</button>
-                <button onClick={self.chooseChart.bind(self,'bar')}>条形图</button>
-                <button onClick={self.chooseChart.bind(self,'pie')}>饼状图</button>
+            <div className='leftUpload'>
+                <div ref="codeEditor" className='codeEditor'></div>
+                <button onClick={this.submitData}>提交数据</button>
+                <button onClick={this.getFormatData}>格式化数据</button>
+            </div>
+            <div className='rightShow'>
+                <div id='main' className='main'></div>
+                <div className='gadeEchart'>
+                    <button onClick={self.chooseChart.bind(self,'line')}>折线图</button>
+                    <button onClick={self.chooseChart.bind(self,'bar')}>条形图</button>
+                    <button onClick={self.chooseChart.bind(self,'pie')}>饼状图</button>
+                </div>
             </div>
         </div>;
     }
@@ -93,7 +117,24 @@ export default class Home extends Component {
         let { option } = self.state;
         option.series[0].type = type;
         self.setState({option: option},function(){
-            myChart.setOption(option);
-        })
+            myChart.setOption(self.state.option);
+        });
+    }
+    submitData(){
+        let self = this;
+        let data = ace.edit(self.refs.codeEditor).getValue();
+        // 格式化后进行校验 校验通过进行处理
+        fetchJsonp('http://127.0.0.1:8000/hello?data='+data)
+        .then(function(response) { return response.json();})
+        .then(res => {
+            this.formatData(res);
+        });
+    }
+    getFormatData(){
+        let self = this;
+        let editor = ace.edit(self.refs.codeEditor);
+        let data = editor.getValue();
+        let format = jsBeautify.js_beautify(data, { indent_size: 2 });
+        editor.setValue(format);
     }
 }
