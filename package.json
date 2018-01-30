@@ -11,7 +11,8 @@
     "start:prod": "cross-env EGG_SERVER_ENV=prod node index.js",
     "kill-port": "kill -9 $(lsof -i:8888 |grep 'node'|aw '{print $2}') ",
     "lint": "eslint .",
-    "fix": "eslint --fix ."
+    "fix": "eslint --fix .",
+    "debug": "egg-bin debug"
   },
   "dependencies": {
     "echarts": "^3.8.5",
@@ -48,6 +49,7 @@
     "directory-named-webpack-plugin": "^2.2.3",
     "easywebpack-cli": "^3.5.0",
     "easywebpack-react": "^3.5.0",
+    "egg-bin": "^4.3.7",
     "egg-mysql": "^3.0.0",
     "egg-webpack": "^3.2.4",
     "egg-webpack-react": "^2.0.0",
