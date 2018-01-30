@@ -56,8 +56,8 @@ export default class Home extends Component {
         option.xAxis.data = xData;
         option.series[0].data = yData;
         self.setState({option: option},function(){
-            var myChart = Echarts.init(document.getElementById('main'));
-            myChart.setOption(self.state.option);
+            // var myChart = Echarts.init(document.getElementById('main'));
+            // myChart.setOption(self.state.option);
         });
     }
 
@@ -83,7 +83,7 @@ export default class Home extends Component {
 'Veronica': {'Blues Traveler': 3.0, 'Norah Jones': 5.0, 'Phoenix': 4.0, 'Slightly Stoopid': 2.5,
          'The Strokes': 3.0}
 }
-
+        
         fetchJsonp('http://127.0.0.1:8000/hello?data='+JSON.stringify(users))
         .then(function(response) { return response.json();})
         .then(res => {
@@ -100,20 +100,20 @@ export default class Home extends Component {
                 <button onClick={this.submitData}>提交数据</button>
                 <button onClick={this.getFormatData}>格式化数据</button>
             </div>
-            <div className='rightShow'>
+           {/*  <div className='rightShow'>
                 <div id='main' className='main'></div>
                 <div className='gadeEchart'>
                     <button onClick={self.chooseChart.bind(self,'line')}>折线图</button>
                     <button onClick={self.chooseChart.bind(self,'bar')}>条形图</button>
                     <button onClick={self.chooseChart.bind(self,'pie')}>饼状图</button>
                 </div>
-            </div>
+            </div> */}
         </div>;
     }
 
     chooseChart(type){
         let self = this;
-        var myChart = Echarts.init(document.getElementById('main'));
+        // var myChart = Echarts.init(document.getElementById('main'));
         let { option } = self.state;
         option.series[0].type = type;
         self.setState({option: option},function(){
@@ -124,11 +124,26 @@ export default class Home extends Component {
         let self = this;
         let data = ace.edit(self.refs.codeEditor).getValue();
         // 格式化后进行校验 校验通过进行处理
-        fetchJsonp('http://127.0.0.1:8000/hello?data='+data)
+        fetchJsonp('http://127.0.0.1:7001/submit?data='+data)
         .then(function(response) { return response.json();})
         .then(res => {
             this.formatData(res);
         });
+
+        // const result = ctx.curl('http://127.0.0.1:7001/submit', {
+        //     // 必须指定 method
+        //     method: 'POST',
+        //     // 通过 contentType 告诉 HttpClient 以 JSON 格式发送
+        //     contentType: 'json',
+        //     data: {
+        //       data: data
+        //     //   now: Date.now(),
+        //     },
+        //     // 明确告诉 HttpClient 以 JSON 格式处理返回的响应 body
+        //     dataType: 'json',
+        //   });
+        //   ctx.body = result.data;
+
     }
     getFormatData(){
         let self = this;

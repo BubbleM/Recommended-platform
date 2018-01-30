@@ -4,7 +4,6 @@ import List from 'component/home/list.jsx';
 import './home.css';
 export default class Home extends Component {
   componentDidMount() {
-    console.log('----componentDidMount-----');
   }
 
   render() {
