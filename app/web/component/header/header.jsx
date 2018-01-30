@@ -11,10 +11,10 @@ export default class Header extends Component {
         <a href="/" className="router-link-active">数据推荐平台</a></h1>
       <ul className="nav">
         <li className="nav-item"><a href="/">INDEX</a></li>
-        <li className="nav-item"><a href="/home">HOME</a></li>
-        <li className="nav-item"><a href="/login">LOGIN</a></li>
-        <li className="nav-item"><a href="/register">REGISTER</a></li>
-        {/* <li className="nav-item"><a href='/home'>HOME</a></li> */}
+        <li className="nav-item"><a href="/homePage">HOME</a></li>
+        <li className="nav-item"><a href='/showPage'>SHOW</a></li>
+        <li className="nav-item"><a href="/loginPage">LOGIN</a></li>
+        <li className="nav-item"><a href="/registerPage">REGISTER</a></li>
         {/* <li className="nav-item"><a href="/client">Client-Render</a></li> */}
         {/* <li className="nav-item"><a href="/css/module">Css-Module</a></li> */}
         {/* <li className="nav-item"><a href="/spa/redux">SPA-CSR</a></li> */}
