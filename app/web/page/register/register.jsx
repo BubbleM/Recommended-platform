@@ -10,10 +10,11 @@ export default class Register extends Component {
       <Header></Header>
       <div className="main">
         注册
-        <form action="">
-          <input placeholder='请输入用户名'/>
-          <br/>
-          <input placeholder='请输入密码'/>
+        <form action="/register" method="GET" encType="multipart/form-data">
+          <p>手机号: <input type="text" placeholder="请输入手机号" name="phone"/></p>
+          <p>昵称: <input type="text" placeholder="请输入用户名" name="username"/></p>
+          <p>密码: <input type="password" placeholder="请输入密码" name="pwd"/></p>
+          <input type="submit" value="Submit" />
         </form>
       </div>
     </div>;
