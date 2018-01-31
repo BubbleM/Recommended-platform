@@ -9,4 +9,5 @@ module.exports = app => {
   app.get('/submit', app.controller.home.home.submit);
   app.get('/register', app.controller.home.home.register);
   app.get('/login', app.controller.home.home.login);
+  app.get('/getUploadData', app.controller.home.home.getUploadData);
 };

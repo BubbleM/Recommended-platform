@@ -40,20 +40,43 @@ module.exports = app => {
         // 注册失败
       }
     }
-    async submit(){ // 提交数据
+    async submit() { // 提交数据
       const { ctx } = this;
       const query = this.ctx.query.data;
-      await this.app.mysql.insert('info', {attr: query, uid:1});
+      const _callback = ctx.query.callback;
+      const userPhone = this.ctx.cookies.get("username");
+      const userId = await this.app.mysql.query('select id from user where phone = ?', [userPhone]);
+      if (userId.length > 0) {
+        let result = await this.app.mysql.insert('uploadData', {data: query, uid: userId[0].id});
+        if (result.affectedRows == 1) {
+          ctx.type = 'text/javascript';
+          ctx.body = _callback + '(' + JSON.stringify(result) + ')';
+          // 提交数据成功 重定向到展示数据页面
+        }
+      } else {
+        // 插入失败
+      }
     }
     async login(){ // 平台用户登陆
       const { ctx } = this;
       const data = this.ctx.query;
-      let result = await this.app.mysql.query('select pwd from user where phone = ?', [data.phone]);
+      const result = await this.app.mysql.query('select pwd from user where phone = ?', [data.phone]);
       if (result[0].pwd === data.pwd) {
         ctx.cookies.set('username', data.phone, {maxAge: 1000*60*60*24});
         ctx.redirect('/');
       } else {
         // 登陆失败
+      }
+    }
+    async getUploadData(){ // 获取用户上传数据
+      const { ctx } = this;
+      const _callback = ctx.query.callback;
+      const userPhone = ctx.cookies.get("username");
+      const userId = await this.app.mysql.query('select id from user where phone = ?', [userPhone]);
+      if (userId.length > 0) {
+        const result = await this.app.mysql.query('select * from uploadData where uid = ?', [userId[0].id]);
+        ctx.type = 'text/javascript';
+        ctx.body = _callback + '(' + JSON.stringify(result) + ')';
       }
     }
    /*  async client() {

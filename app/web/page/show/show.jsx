@@ -32,6 +32,22 @@ export default class Show extends Component {
         this.formatData = this.formatData.bind(this);
     }
 
+    componentDidMount() {
+        let data = '';
+        let _self = this;
+        fetchJsonp('http://127.0.0.1:7001/getUploadData')
+        .then(function(response) { return response.json();})
+        .then(res => {
+            data = res[0].data;
+
+            fetchJsonp('http://127.0.0.1:8000/hello?data='+data)
+            .then(function(response) { return response.json();})
+            .then(res => {
+                _self.formatData(res);
+            });
+        });
+    }
+
     formatData(res) {
         let self = this, xData = [], yData = [];
         let { option } = self.state;
@@ -52,11 +68,6 @@ export default class Show extends Component {
         let self = this;
         return <div className='showData'>
             <Header></Header>
-            {/* <div className='leftUpload'>
-                <div ref="codeEditor" className='codeEditor'></div>
-                <button onClick={this.submitData}>提交数据</button>
-                <button onClick={this.getFormatData}>格式化数据</button>
-            </div> */}
            <div id='main' className='main'></div>
             <div className='gadeEchart'>
                 <button onClick={self.chooseChart.bind(self,'line')}>折线图</button>
@@ -83,15 +94,5 @@ export default class Show extends Component {
             myChart.setOption(self.state.option);
         });
     }
-    // 提交数据后重新渲染图表
-    submitData(){
-        let self = this;
-        let data = ace.edit(self.refs.codeEditor).getValue();
-        // 格式化后进行校验 校验通过进行处理
-        fetchJsonp('http://127.0.0.1:8000/hello?data='+data)
-        .then(function(response) { return response.json();})
-        .then(res => {
-            this.formatData(res);
-        });
-    }
+    
 }
