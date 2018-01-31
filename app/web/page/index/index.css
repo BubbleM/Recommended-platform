@@ -1,25 +1,24 @@
-.showData{
-    position: relative;
+.editPanel{
+    display: flex;
+    height: 557px;
 }
-.showData .leftUpload{
-    position: absolute;
-    left: 0;
-}
-.showData .leftUpload .codeEditor{
-    width: 550px;
-    height: 500px;
+.editPanel .codeEditor{
     font-size: 15px;
     color: #ffffff;
     background: #272822;   
+    flex: 1;
 }
-.showData .rightShow{
-    position: absolute;
-    right: 0;
+.editPanel .panel-info{
+    display: flex;
+    width: 400px;
+    /* background: #2d8cf0; */
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 3px #000;
 }
-.showData .rightShow .main{
-    width: 600px;
-    height: 500px;
-}
-.showData .rightShow .gadeEchart{
-    width: 200px;
+.editPanel .panel-info .editBtn{
+    width: 160px;
+    height: 50px;
+    background: #F3F3F3;
 }
