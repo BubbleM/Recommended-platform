@@ -10,4 +10,5 @@ module.exports = app => {
   app.get('/register', app.controller.home.home.register);
   app.get('/login', app.controller.home.home.login);
   app.get('/getUploadData', app.controller.home.home.getUploadData);
+  app.get('/showRecommendObj', app.controller.home.home.showRecommendObj);
 };

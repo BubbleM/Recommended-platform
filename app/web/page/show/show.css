@@ -1,7 +1,11 @@
+.showData{
+    display: flex;
+}
 #main{
     width: 600px;
     height: 500px;
+    flex: 1;
 }
 #main .gadeEchart{
-    width: 200px;
+    width: 187px;
 }

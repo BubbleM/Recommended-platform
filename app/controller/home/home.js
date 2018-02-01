@@ -79,6 +79,19 @@ module.exports = app => {
         ctx.body = _callback + '(' + JSON.stringify(result) + ')';
       }
     }
+    async showRecommendObj(){ // 获取推荐对象集合
+      const { ctx } = this;
+      const _callback = ctx.query.callback;
+      const dataId = ctx.query.dataId;
+      const result = await this.app.mysql.query('select data from uploadData where id = ?', [dataId]);
+      ctx.type = 'text/javascript';
+      let obj = []; // 获取推荐对象集合
+      let dataObj = JSON.parse(result[0].data);
+      for(let o in dataObj){
+        obj.push(o);
+      }
+      ctx.body = _callback + '(' + JSON.stringify(obj) + ')';
+    }
    /*  async client() {
       const { ctx } = this;
       await ctx.renderClient('home/home.js', Model.getPage(1, 10));
