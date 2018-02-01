@@ -19,11 +19,12 @@ export default class Show extends Component {
             },
             tooltip: {},
             xAxis: {
+                name: '可能喜欢的物品',
                 data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
             },
             yAxis: {},
             series: [{
-                name: '相关程度',
+                name: '喜爱程度',
                 type: 'line',
                 data: [5, 20, 36, 10, 10, 20]
             }]
@@ -46,9 +47,11 @@ export default class Show extends Component {
     }
     showResult(){
         let _self = this, data = '';
-        let { datas } = _self.state;
+        let { datas,option } = _self.state;
         let setData = document.getElementById('setData').value;
         let obj = document.getElementById('setObj').value;
+        option.title.text = obj+'的推荐结果展示';
+        _self.setState({option: option});
         datas.map(item => {
             if (item.id == setData) {
                 data = item.data;
@@ -116,7 +119,7 @@ export default class Show extends Component {
                         <option>请选择推荐算法</option>
                         <option value="Bill">基于用户的协同过滤</option>
                         <option value="Hailey">基于物品的协调过滤</option>
-                        <option value="Sam">聚类算法</option>
+                        <option value="Sam">层次聚类</option>
                         <option value="Veronica">分类算法</option>
                     </select>
                     <button type="button" onClick={self.showResult}>查看结果</button>
@@ -131,6 +134,7 @@ export default class Show extends Component {
         var myChart = Echarts.init(document.getElementById('main'));
         let { option } = self.state;
         option.series[0].type = type;
+
         self.setState({option: option},function(){
             myChart.setOption(self.state.option);
         });
