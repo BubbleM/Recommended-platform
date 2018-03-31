@@ -1,10 +1,10 @@
 .main{
-    margin-top: -80px;
+    /* margin-top: -80px; */
     padding: 80px 0 120px;
     box-sizing: border-box;
 }
 .page-container{
-    width: 1140px;
+    width: 100%;
     padding: 0 30px;
     margin: 36px auto;
 }

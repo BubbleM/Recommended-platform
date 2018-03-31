@@ -1,0 +1,64 @@
+@import "../../asset/css/global.css"
+
+.header
+  color: #fff
+  position: absolute
+  top: 0
+  min-width: 100%
+  height: 100px
+  background: rgba(7, 17, 27, 0.75)
+  img
+    width: 200px
+    height: 66px
+    margin-top: 17px
+  .nav
+    position: absolute
+    left: 250px
+    top: 0
+    height: 100%
+    text-align: center
+    .nav-item:first-child
+      border-left: 1px solid rgba(225, 225, 225,0.3)
+    .nav-item
+      width: 110px
+      height: 100%
+      line-height: 100px // 文字垂直居中
+      border-right: 1px solid rgba(225, 225, 225,0.3)
+      background: url("./../../asset/images/sub_nav.png") repeat-x
+      display: block
+      list-style-type: none
+      float: left
+      font-size: 18px
+      font-weight: normal
+      .bottom-ul
+        position: relative
+        display: none
+        width: 240px
+        height: 105px
+        font-size: 15px
+        background: url("./../../asset/images/sub_nav.png") repeat-x
+        .left-ul
+          position: absolute
+          left: 0
+          width: 50%
+          li
+            height: 35px
+            line-height: 35px
+            border-right: 1px solid rgba(7,17,27,0.6)
+        .right-ul
+          position: absolute
+          right: 0
+          width: 50%
+          li
+            height: 35px
+            line-height: 35px
+  .login
+    position: absolute
+    right: 0
+    top: 0
+    height: 100%
+    button
+      width: 80px
+      margin: 30px 10px 25px 10px
+      a 
+        color: #ffffff

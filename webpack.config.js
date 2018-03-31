@@ -24,8 +24,8 @@ module.exports = {
   cssModule: {
     include: 'app/web/page/css/module'
   },
-  loaders: {
-
+  loaders:{
+    
   },
   plugins: {
 

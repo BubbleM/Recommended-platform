@@ -4,7 +4,9 @@ module.exports = app => {
   const exports = {};
 
   exports.siteFile = {
-    '/favicon.ico': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/favicon.ico'))
+    '/favicon.ico': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/favicon.ico')),
+    '/public/assets/LOGO': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/iconlogo.png')),
+    '/public/assets/banner01': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/banner2.png'))
   };
 
   exports.logger = {

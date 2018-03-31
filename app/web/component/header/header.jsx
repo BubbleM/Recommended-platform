@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
-import './header.css';
+import './header.sass';
 export default class Header extends Component {
-  componentDidMount() {
-    
-  }
 
   render() {
-    return <header className="header">
-      <div className="container"><h1>
-        <a href="/" className="router-link-active">数据推荐平台</a></h1>
-      <ul className="nav">
-        <li className="nav-item"><a href="/">INDEX</a></li>
-        <li className="nav-item"><a href="/homePage">HOME</a></li>
-        <li className="nav-item"><a href='/showPage'>SHOW</a></li>
-        <li className="nav-item"><a href="/loginPage">LOGIN</a></li>
-        <li className="nav-item"><a href="/registerPage">REGISTER</a></li>
-        {/* <li className="nav-item"><a href="/client">Client-Render</a></li> */}
-        {/* <li className="nav-item"><a href="/css/module">Css-Module</a></li> */}
-        {/* <li className="nav-item"><a href="/spa/redux">SPA-CSR</a></li> */}
-        {/* <li className="nav-item"><a href="/spa/ssr">SPA-SSR</a></li> */}
+    return(
+    <header className="header">
+      <img src="/public/assets/LOGO" alt="iconlogo"/>
+      <ul ref = 'el' className="nav">
+        <li className="nav-item">首页</li>
+        <li className="nav-item">数据上传</li>
+        <li className="nav-item">结果展示</li>
+        <li className="nav-item">关于我们</li>
       </ul>
+      <div className="login">
+        <button className="btn btn-success" role="button"><a href="/loginPage">登陆</a></button>
+        <button className="btn btn-success" role="button"><a href="/registerPage">注册</a></button>
       </div>
-    </header>;
+    </header>
+    )
+  }
+
+  componentDidMount() {
+    var self = this;
+    var liNodes = self.refs.el.children;
+    for(let i = 0; i < liNodes.length; i++){
+      liNodes[i].onmouseover = function(){
+        liNodes[i].style.width = '200px';
+      }
+      liNodes[i].onmouseout = function(){
+        liNodes[i].style.width = '110px';
+      }
+    }
   }
 }
