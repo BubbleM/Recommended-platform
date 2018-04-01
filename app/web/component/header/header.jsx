@@ -7,9 +7,9 @@ export default class Header extends Component {
     <header className="header">
       <img src="/public/assets/LOGO" alt="iconlogo"/>
       <ul ref = 'el' className="nav">
-        <li className="nav-item">首页</li>
-        <li className="nav-item">数据上传</li>
-        <li className="nav-item">结果展示</li>
+        <li className="nav-item"><a href="/">首页</a></li>
+        <li className="nav-item"><a href="/homePage">数据上传</a></li>
+        <li className="nav-item"><a href="/showPage">结果展示</a></li>
         <li className="nav-item">关于我们</li>
       </ul>
       <div className="login">
