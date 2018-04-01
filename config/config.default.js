@@ -6,7 +6,13 @@ module.exports = app => {
   exports.siteFile = {
     '/favicon.ico': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/favicon.ico')),
     '/public/assets/LOGO': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/iconlogo.png')),
-    '/public/assets/banner01': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/banner2.png'))
+    '/public/assets/banner01': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/banner01.jpg')),
+    '/public/assets/banner02': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/banner02.jpg')),
+    '/public/assets/banner03': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/banner03.jpg')),
+    '/public/assets/attr01': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/attr01.png')),
+    '/public/assets/attr02': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/attr02.png')),
+    '/public/assets/attr03': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/attr03.png')),
+    '/public/assets/attr04': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/attr04.png'))
   };
 
   exports.logger = {
