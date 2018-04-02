@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import Header from 'component/header/header.jsx';
-import './login.css';
+import BgAnimation from 'component/animation/bganimation.js';
+import './login.sass';
 export default class Home extends Component {
-  componentDidMount() {
-  }
-
   render() {
     return <div>
-      <Header></Header>
+      {/* <Header></Header> */}
+      <canvas id="myCanvas"></canvas>
       <div className="main">
         {this.props.info ? this.props.info : '登陆'}
         <form action="/login" method="GET">
@@ -18,5 +17,8 @@ export default class Home extends Component {
         </form>
       </div>
     </div>;
+  }
+  componentDidMount() {
+    BgAnimation('myCanvas');
   }
 }
