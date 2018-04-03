@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from 'component/header/header.jsx';
 import BgAnimation from 'component/animation/bganimation.js';
 import './login.sass';
-export default class Home extends Component {
+export default class Login extends Component {
   render() {
     return <div>
       <Header></Header>
