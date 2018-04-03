@@ -1,8 +1,8 @@
 (function(){
   'use strict';
 
-  const WIDTH = window.innerWidth,
-        HEIGHT = window.innerHeight,
+  const WIDTH = document.documentElement.clientWidth-20,
+        HEIGHT = document.documentElement.clientHeight-20,
         POINT = 60;
   var canvas, ctx, circleArr = [];
 
