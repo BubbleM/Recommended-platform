@@ -8,7 +8,7 @@ import 'echarts/lib/chart/bar';
 // 引入提示框和标题组件
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
-import './show.css';
+import './show.sass';
 
 export default class Show extends Component {
   constructor(props) {
@@ -75,9 +75,9 @@ export default class Show extends Component {
       myChart.setOption(self.state.option);
     });
   }
-  chooseChart(type) {
+  chooseChart(chartId,type) {
     let self = this;
-    var myChart = Echarts.init(document.getElementById('main'));
+    var myChart = Echarts.init(document.getElementById(chartId));
     let { option } = self.state;
     option.series[0].type = type;
 
@@ -89,15 +89,15 @@ export default class Show extends Component {
     let self = this;
     let { datas, objs } = this.state;
     return <div>
-      <Header></Header>
-      <div className='showData'>
-        <div>
-          <div className='gadeEchart'>
-            <button onClick={self.chooseChart.bind(self, 'line')}>折线图</button>
-            <button onClick={self.chooseChart.bind(self, 'bar')}>条形图</button>
-            <button onClick={self.chooseChart.bind(self, 'pie')}>饼状图</button>
-          </div>
-          <select id='setData' onChange={(e) => self.setDataFn(e)}>
+      {/* <Header></Header> */}
+      <div className='showData_wrap'>
+        <div className='select_wrap'>
+          {/* <div className='gadeEchart'>
+            <button onClick={self.chooseChart.bind(self, 'main', 'line')}>折线图</button>
+            <button onClick={self.chooseChart.bind(self, 'main', 'bar')}>条形图</button>
+            <button onClick={self.chooseChart.bind(self, 'main', 'pie')}>饼状图</button>
+          </div> */}
+          <select id='setData' className='btn btn-primary' onChange={(e) => self.setDataFn(e)}>
             <option value="" selected>请选择推荐数据集</option>
             {
               datas.map((item, index) => {
@@ -105,7 +105,7 @@ export default class Show extends Component {
               })
             }
           </select>
-          <select id='setObj'>
+          <select id='setObj' className='btn btn-primary'>
             <option value="" selected>请选择推荐对象</option>
             {
               objs.map((item, index) => {
@@ -113,16 +113,17 @@ export default class Show extends Component {
               })
             }
           </select>
-          <select>
+          <select className='btn btn-primary'>
             <option>请选择推荐算法</option>
             <option value="Bill">基于用户的协同过滤</option>
             <option value="Hailey">基于物品的协调过滤</option>
             <option value="Sam">层次聚类</option>
             <option value="Veronica">分类算法</option>
           </select>
-          <button type="button" onClick={self.showResult}>查看结果</button>
+          <button type="button" className='btn btn-success' onClick={self.showResult}>查看结果</button>
         </div>
-        <div id='main' className='main'></div>
+        <div id='main' className='chartWrap'></div>
+        <div id='lineChart' className='chartWrap'></div>
       </div>
     </div>;
   }
@@ -134,6 +135,8 @@ export default class Show extends Component {
       .then(res => {
         data = res[0].data; // 暂时选择当前用户最早上传的一条数据作为模拟数据
         this.setState({ datas: res });
-      });
+      }
+    );
+    _self.chooseChart('main', 'line')
   }
 }
