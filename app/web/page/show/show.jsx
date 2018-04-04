@@ -14,13 +14,18 @@ export default class Show extends Component {
   constructor(props) {
     super(props);
     let options = {
-      title: {
-        text: '推荐结果展示'
-      },
+      // title: {
+      //   text: '推荐结果展示',
+      //   textStyle: {
+      //     color: 'green',
+      //     fontSize: 14,
+      //     fontWeight: 'bold'
+      //   }
+      // },
       tooltip: {},
       xAxis: {
-        name: '可能喜欢的物品',
-        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+        name: 'Like',
+        data: ['Blue Traveler', 'Deadmau5', 'Broken', 'Bells', 'Strokes', 'Books']
       },
       yAxis: {},
       series: [{
@@ -29,18 +34,19 @@ export default class Show extends Component {
         data: [5, 20, 36, 10, 10, 20]
       }]
     };
-    this.state = { option: options, datas: [], objs: [] };
+    this.myChart = {};
+    this.state = { option: options, datas: [], objs: [], titleInfo: '推荐结果展示' };
     this.formatData = this.formatData.bind(this);
     this.setDataFn = this.setDataFn.bind(this);
     this.showResult = this.showResult.bind(this);
   }
   showResult() {
     let _self = this, data = '';
-    let { datas, option } = _self.state;
+    let { datas, option, titleInfo } = _self.state;
     let setData = document.getElementById('setData').value;
     let obj = document.getElementById('setObj').value;
-    option.title.text = obj + '的推荐结果展示';
-    _self.setState({ option: option });
+    titleInfo = ' ~_~ '+obj + '的推荐结果展示';
+    _self.setState({titleInfo: titleInfo });
     datas.map(item => {
       if (item.id == setData) {
         data = item.data;
@@ -71,32 +77,30 @@ export default class Show extends Component {
     option.xAxis.data = xData;
     option.series[0].data = yData;
     self.setState({ option: option }, function () {
-      var myChart = Echarts.init(document.getElementById('main'));
-      myChart.setOption(self.state.option);
+      for(let chart in self.myChart){
+        let type = chart.split('Chart')[0];
+        self.state.option.series[0].type = type;
+        self.myChart[chart].setOption(self.state.option);
+      }
     });
   }
   chooseChart(chartId,type) {
     let self = this;
-    var myChart = Echarts.init(document.getElementById(chartId));
     let { option } = self.state;
+    self.myChart[chartId] = Echarts.init(document.getElementById(chartId));
     option.series[0].type = type;
-
     self.setState({ option: option }, function () {
-      myChart.setOption(self.state.option);
+      self.state.option.series[0].type = type;
+      self.myChart[chartId].setOption(self.state.option);
     });
   }
   render() {
     let self = this;
     let { datas, objs } = this.state;
     return <div>
-      {/* <Header></Header> */}
+      <Header></Header>
       <div className='showData_wrap'>
         <div className='select_wrap'>
-          {/* <div className='gadeEchart'>
-            <button onClick={self.chooseChart.bind(self, 'main', 'line')}>折线图</button>
-            <button onClick={self.chooseChart.bind(self, 'main', 'bar')}>条形图</button>
-            <button onClick={self.chooseChart.bind(self, 'main', 'pie')}>饼状图</button>
-          </div> */}
           <select id='setData' className='btn btn-primary' onChange={(e) => self.setDataFn(e)}>
             <option value="" selected>请选择推荐数据集</option>
             {
@@ -122,8 +126,21 @@ export default class Show extends Component {
           </select>
           <button type="button" className='btn btn-success' onClick={self.showResult}>查看结果</button>
         </div>
-        <div id='main' className='chartWrap'></div>
-        <div id='lineChart' className='chartWrap'></div>
+        <div className="pageTitle">{this.state.titleInfo}</div>
+        <div className="row">
+          <div className="col-xs-6 col-md-3">
+            <div id='lineChart' className='chartWrap'></div>
+          </div>
+          <div className="col-xs-6 col-md-3">
+            <div id='pieChart' className='chartWrap'></div>
+          </div>
+          <div className="col-xs-6 col-md-3">
+            <div id='barChart' className='chartWrap'></div>
+          </div>
+          <div className="col-xs-6 col-md-3">
+            <div id='scatterChart' className='chartWrap'></div>
+          </div>
+        </div>
       </div>
     </div>;
   }
@@ -137,6 +154,9 @@ export default class Show extends Component {
         this.setState({ datas: res });
       }
     );
-    _self.chooseChart('main', 'line')
+    _self.chooseChart('lineChart', 'line');
+    _self.chooseChart('pieChart', 'pie');
+    _self.chooseChart('barChart', 'bar');
+    _self.chooseChart('scatterChart', 'scatter');
   }
 }
