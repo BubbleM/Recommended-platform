@@ -113,7 +113,7 @@ module.exports = app => {
       const userPhone = ctx.cookies.get("username");
       const userId = await this.app.mysql.query('select id from user where phone = ?', [userPhone]);
       if (userId.length > 0) {
-        const result = await this.app.mysql.query('select * from uploadData where uid = ?', [userId[0].id]);
+        const result = await this.app.mysql.query('select * from uploaddata where uid = ?', [userId[0].id]);
         ctx.type = 'text/javascript';
         ctx.body = _callback + '(' + JSON.stringify(result) + ')';
       }
@@ -122,7 +122,7 @@ module.exports = app => {
       const { ctx } = this;
       const _callback = ctx.query.callback;
       const dataId = ctx.query.dataId;
-      const result = await this.app.mysql.query('select data from uploadData where id = ?', [dataId]);
+      const result = await this.app.mysql.query('select data from uploaddata where id = ?', [dataId]);
       ctx.type = 'text/javascript';
       let obj = []; // 获取推荐对象集合
       let dataObj = JSON.parse(result[0].data);
