@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from 'component/header/header.jsx';
+import Star from 'component/star/star.jsx';
 import fetchJsonp from 'fetch-jsonp';
 // 引入 ECharts 主模块
 import Echarts from 'echarts';
@@ -46,7 +47,8 @@ export default class Show extends Component {
       }]
     };
     this.myChart = {};
-    this.state = { option: options, datas: [], objs: [], titleInfo: '推荐结果展示' };
+    this.state = { option: options, datas: [], objs: [], 
+      titleInfo: '推荐结果展示', analyze: {} };
     this.formatData = this.formatData.bind(this);
     this.setDataFn = this.setDataFn.bind(this);
     this.showResult = this.showResult.bind(this);
@@ -67,6 +69,7 @@ export default class Show extends Component {
       .then(function (response) { return response.json(); })
       .then(res => {
         _self.formatData(res);
+        _self.setAnalyze(obj, res);
       });
   }
   setDataFn(e) {
@@ -77,10 +80,19 @@ export default class Show extends Component {
         this.setState({ objs: res });
       });
   }
+  setAnalyze(obj, info) {
+    // 对推荐结果按照评分进行排序
+    info.sort((a,b) => {
+      return b[1] - a[1];
+    });
+    let { analyze } = this.state;
+    analyze.obj = obj;
+    analyze.info = info;
+    this.setState({analyze: analyze});
+  }
   formatData(res) {
     let self = this, xData = [], yData = [];
     let { option } = self.state;
-
     res.forEach(item => {
       xData.push(item[0]);
       yData.push(item[1]);
@@ -107,7 +119,7 @@ export default class Show extends Component {
   }
   render() {
     let self = this;
-    let { datas, objs } = this.state;
+    let { datas, objs, analyze } = this.state;
     return <div>
       <Header></Header>
       <div className='showData_wrap'>
@@ -137,7 +149,7 @@ export default class Show extends Component {
           </select>
           <button type="button" className='btn btn-success' onClick={self.showResult}>查看结果</button>
         </div>
-        <div className="pageTitle">{this.state.titleInfo}</div>
+        <div className="pageTitle">{self.state.titleInfo}</div>
         <div className="row">
           <div className="col-xs-6 col-md-3">
             <div id='lineChart' className='chartWrap'></div>
@@ -152,6 +164,15 @@ export default class Show extends Component {
             <div id='scatterChart' className='chartWrap'></div>
           </div>
         </div>
+        <div className="pageTitle">推荐结果分析</div>
+        {JSON.stringify(analyze) !== '{}' ? 
+        <div className="analyzeResult">
+          <div className='topTitle'>{analyze.obj}最有可能会喜欢的是:</div>                                                                                                                                                             
+          <div className='topInfo'>TOP01: {analyze.info[0][0]} 推荐指数 <Star size='36' score={analyze.info[0][1]}></Star></div>
+          <div className='topInfo'>TOP02: {analyze.info[1][0]} 推荐指数 <Star size='36' score={analyze.info[1][1]}></Star></div>
+          <div className='topInfo'>TOP03: {analyze.info[2][0]} 推荐指数 <Star size='36' score={analyze.info[2][1]}></Star></div>
+        </div> : 
+        <div className="analyzeResult">选择推荐对象，平台会给出相应的结果分析报告哦～</div>}
       </div>
     </div>;
   }
