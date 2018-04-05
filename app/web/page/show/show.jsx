@@ -117,6 +117,17 @@ export default class Show extends Component {
       self.myChart[chartId].setOption(self.state.option);
     });
   }
+  componentWillMount() {
+    let data = '';
+    let _self = this;
+    fetchJsonp('http://127.0.0.1:7001/getUploadData')
+      .then(function (response) { return response.json(); })
+      .then(res => {
+        data = res[0].data; // 暂时选择当前用户最早上传的一条数据作为模拟数据
+        this.setState({ datas: res });
+      }
+    );
+  }
   render() {
     let self = this;
     let { datas, objs, analyze } = this.state;
@@ -177,15 +188,7 @@ export default class Show extends Component {
     </div>;
   }
   componentDidMount() {
-    let data = '';
     let _self = this;
-    fetchJsonp('http://127.0.0.1:7001/getUploadData')
-      .then(function (response) { return response.json(); })
-      .then(res => {
-        data = res[0].data; // 暂时选择当前用户最早上传的一条数据作为模拟数据
-        this.setState({ datas: res });
-      }
-    );
     _self.chooseChart('lineChart', 'line');
     _self.chooseChart('pieChart', 'pie');
     _self.chooseChart('barChart', 'bar');

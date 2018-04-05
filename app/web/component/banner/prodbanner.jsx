@@ -8,7 +8,7 @@ export default class ProdBanner extends Component{
     return(
       <div className="prodbanner_wrap row">
         <img src={data.img} alt=""/>
-        <div className="intro-holder col-md-5">
+        <div className="intro-holder col-xs-6 col-md-5">
           <h2>{data.title}</h2>
           <p>{data.msg}</p>
         </div>

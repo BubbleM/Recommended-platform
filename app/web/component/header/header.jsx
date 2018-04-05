@@ -23,12 +23,14 @@ export default class Header extends Component {
   componentDidMount() {
     var self = this;
     var liNodes = self.refs.el.children;
-    for(let i = 0; i < liNodes.length; i++){
-      liNodes[i].onmouseover = function(){
-        liNodes[i].style.width = '200px';
-      }
-      liNodes[i].onmouseout = function(){
-        liNodes[i].style.width = '110px';
+    if (window.innerWidth > 850) {
+      for(let i = 0; i < liNodes.length; i++){
+        liNodes[i].onmouseover = function(){
+          liNodes[i].style.width = '200px';
+        }
+        liNodes[i].onmouseout = function(){
+          liNodes[i].style.width = '110px';
+        }
       }
     }
   }
