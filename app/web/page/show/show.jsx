@@ -25,9 +25,20 @@ export default class Show extends Component {
       tooltip: {},
       xAxis: {
         name: 'Like',
+        type: 'category',
+        axisLabel: {
+          interval: 0 // X坐标轴所有属性全展示
+        },
+        nameGap: 2,
+        nameTextStyle: {
+          fontSize: 12,
+          align: 'left'
+        },
         data: ['Blue Traveler', 'Deadmau5', 'Broken', 'Bells', 'Strokes', 'Books']
       },
-      yAxis: {},
+      yAxis: {
+        min: 0
+      },
       series: [{
         name: '喜爱程度',
         type: 'line',
