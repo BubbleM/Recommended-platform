@@ -1,10 +1,12 @@
 const Model = require('../../mocks/article/list');
 const bgInfo = [{
   img: '/public/assets/banner01',
-  title: '利用深度学习技术',
-  msg: `提炼知识的关联结构，构建行业专属语义模型
-  深度挖掘语义关系，提炼非结构化数据的价值信息
-  提供更智能的检索方式，辅助决策意见，优化搜索引擎`
+  title: '利用协同过滤技术',
+  msg: `根据用户对项目的评分信息，
+  从项目—用户评分矩阵中查找到相似的项目或用户，
+  推测出用户对项目的未知评分，
+  从而过滤出用户的偏好项目，
+  使得推荐系统能够为用户做出有价值的推荐`
 },{
   img: '/public/assets/banner02',
   title: '利用深度学习技术',
@@ -19,22 +21,22 @@ const bgInfo = [{
   提供更智能的检索方式，辅助决策意见，优化搜索引擎`
 }];
 const attrInfo = {
-  title: '应用场景',
+  title: '平台优势',
   attrData: [{
     img: '/public/assets/attr01',
-    attr: '合同文档自动解析',
-    describe: '自动化处理大量合同文档，快速应对审阅、查找、校对等复杂工作，有效监控风险条款，节省人力和时间成本'
+    attr: '自主选择',
+    describe: '用户自主选择配置策略，快速应对审阅、查找、校对等复杂工作，有效监控风险条款，节省人力和时间成本'
   },{
     img: '/public/assets/attr02',
-    attr: '文件信息分析提取',
+    attr: '安全可靠',
     describe: '自动化处理大量合同文档，快速应对审阅、查找、校对等复杂工作，有效监控风险条款，节省人力和时间成本'
   },{
     img: '/public/assets/attr03',
-    attr: 'HR人岗精准匹配',
+    attr: '结果可视化',
     describe: '自动化处理大量合同文档，快速应对审阅、查找、校对等复杂工作，有效监控风险条款，节省人力和时间成本'
   },{
     img: '/public/assets/attr04',
-    attr: 'VOC客户意见分析',
+    attr: '准确快速',
     describe: '自动化处理大量合同文档，快速应对审阅、查找、校对等复杂工作，有效监控风险条款，节省人力和时间成本'
   }]
 }
@@ -54,8 +56,9 @@ module.exports = app => {
     }
     async homePage(){
       const { ctx } = this;
-      if (ctx.cookies.get('username')) {
-        await ctx.render('index/index.js');
+      let username = ctx.cookies.get('username');
+      if (username) {
+        await ctx.render('index/index.js', {username: username});
       } else {
         await ctx.render('login/login.js', {info: '请登陆后查看'});
       }    
@@ -102,7 +105,7 @@ module.exports = app => {
       const result = await this.app.mysql.query('select pwd from user where phone = ?', [data.phone]);
       if (result[0].pwd === data.pwd) {
         ctx.cookies.set('username', data.phone, {maxAge: 1000*60*60*24});
-        ctx.redirect('/');
+        ctx.redirect('/homePage');
       } else {
         // 登陆失败
       }

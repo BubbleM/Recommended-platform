@@ -14,13 +14,13 @@ if (typeof window !== 'undefined') {
 //   require('./snippets')
 }
 
-export default class Home extends Component {
+export default class Index extends Component {
   constructor(props) {
     super(props);
     this.submitData = this.submitData.bind(this);
     this.getFormatData = this.getFormatData.bind(this);
   }
-
+  
   componentDidMount() {
     let editor = ace.edit(this.refs.codeEditor);
     editor.getSession().setMode('ace/mode/javascript');
@@ -37,7 +37,7 @@ export default class Home extends Component {
           <div className='panel_container'>
             <div className='panel_header'>
               <div className='avator' alt=""/>
-              <div className="userPhone">18229060809</div>
+              <div className="userPhone">{this.props.username}</div>
             </div>
             <div className="dataDescribe">请按照如下格式上传数据</div>
             <div className="dataFormat"></div>
