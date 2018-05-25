@@ -58,6 +58,7 @@ export default class Show extends Component {
     let { datas, option, titleInfo } = _self.state;
     let setData = document.getElementById('setData').value;
     let obj = document.getElementById('setObj').value;
+    let recommendMethod = document.getElementById('setRecommend').value;
     titleInfo = ' ~_~ '+obj + '的推荐结果展示';
     _self.setState({titleInfo: titleInfo });
     datas.map(item => {
@@ -65,7 +66,7 @@ export default class Show extends Component {
         data = item.data;
       }
     })
-    fetchJsonp('http://127.0.0.1:8000/hello?data=' + data + '&user=' + obj)
+    fetchJsonp('http://127.0.0.1:8000/recommened?data=' + data + '&user=' + obj + '&recommendMethod=' + recommendMethod)
       .then(function (response) { return response.json(); })
       .then(res => {
         _self.formatData(res);
@@ -89,6 +90,7 @@ export default class Show extends Component {
     analyze.obj = obj;
     analyze.info = info;
     this.setState({analyze: analyze});
+    console.log(this.state.analyze);
   }
   formatData(res) {
     let self = this, xData = [], yData = [];
@@ -151,12 +153,12 @@ export default class Show extends Component {
               })
             }
           </select>
-          <select className='btn btn-primary'>
+          <select id = 'setRecommend' className='btn btn-primary'>
             <option>请选择推荐算法</option>
-            <option value="Bill">基于用户的协同过滤</option>
-            <option value="Hailey">基于物品的协调过滤</option>
-            <option value="Sam">层次聚类</option>
-            <option value="Veronica">分类算法</option>
+            <option value="UserCF">基于用户的协同过滤</option>
+            <option value="ItemCF">基于物品的协调过滤</option>
+            <option value="Cluster">层次聚类</option>
+            <option value="Classify">分类算法</option>
           </select>
           <button type="button" className='btn btn-success' onClick={self.showResult}>查看结果</button>
         </div>
@@ -176,12 +178,21 @@ export default class Show extends Component {
           </div>
         </div>
         <div className="pageTitle">推荐结果分析</div>
-        {JSON.stringify(analyze) !== '{}' ? 
+        {JSON.stringify(analyze) !== '{}' && analyze.info.length > 0 ? 
         <div className="analyzeResult">
-          <div className='topTitle'>{analyze.obj}最有可能会喜欢的是:</div>                                                                                                                                                             
-          <div className='topInfo'>TOP01: {analyze.info[0][0]} 推荐指数 <Star size='36' score={analyze.info[0][1]}></Star></div>
-          <div className='topInfo'>TOP02: {analyze.info[1][0]} 推荐指数 <Star size='36' score={analyze.info[1][1]}></Star></div>
-          <div className='topInfo'>TOP03: {analyze.info[2][0]} 推荐指数 <Star size='36' score={analyze.info[2][1]}></Star></div>
+          <div className='topTitle'>{analyze.obj}最有可能会喜欢的是:</div>    
+          {
+            analyze.info.map((child, index) => {
+              if (index < 10) {
+                return (
+                  <div className='topInfo'>{'TOP0'+(index-0+1)} {child[0]} 推荐指数 <Star size='36' score={child[1]}></Star></div>
+                )
+              }
+            })
+          }                                                                                                                                     
+          {/* <div className='topInfo'>TOP01: {analyze.info[0][0]} 推荐指数 <Star size='36' score={analyze.info[0][1]}></Star></div> */}
+          {/* <div className='topInfo'>TOP02: {analyze.info[1][0]} 推荐指数 <Star size='36' score={analyze.info[1][1]}></Star></div> */}
+          {/* <div className='topInfo'>TOP03: {analyze.info[2][0]} 推荐指数 <Star size='36' score={analyze.info[2][1]}></Star></div> */}
         </div> : 
         <div className="analyzeResult">选择推荐对象，平台会给出相应的结果分析报告哦～</div>}
       </div>
