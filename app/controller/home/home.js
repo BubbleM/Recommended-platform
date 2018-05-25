@@ -1,4 +1,5 @@
 const Model = require('../../mocks/article/list');
+const md5 = require('./../../middleware/md5.js');
 const bgInfo = [{
   img: '/public/assets/banner01',
   title: '利用协同过滤技术',
@@ -75,7 +76,8 @@ module.exports = app => {
     async register(){ // 平台用户注册
       const { ctx } = this;
       const data = this.ctx.query;
-      let result = await this.app.mysql.insert('user', {username: data.username, phone: data.phone, pwd: data.pwd});
+      let pwd = md5(md5(data.pwd).substr(4,7) + md5(data.pwd));
+      let result = await this.app.mysql.insert('user', {username: data.username, phone: data.phone, pwd: pwd});
       if (result.affectedRows == 1) { 
         ctx.redirect('/');
       } else {
@@ -89,7 +91,7 @@ module.exports = app => {
       const userPhone = this.ctx.cookies.get("username");
       const userId = await this.app.mysql.query('select id from user where phone = ?', [userPhone]);
       if (userId.length > 0) {
-        let result = await this.app.mysql.insert('uploadData', {data: query, uid: userId[0].id});
+        let result = await this.app.mysql.insert('uploaddata', {data: query, uid: userId[0].id});
         if (result.affectedRows == 1) {
           ctx.type = 'text/javascript';
           ctx.body = _callback + '(' + JSON.stringify(result) + ')';
@@ -102,8 +104,9 @@ module.exports = app => {
     async login(){ // 平台用户登陆
       const { ctx } = this;
       const data = this.ctx.query;
+      let pwd = md5(md5(data.pwd).substr(4,7) + md5(data.pwd));
       const result = await this.app.mysql.query('select pwd from user where phone = ?', [data.phone]);
-      if (result[0].pwd === data.pwd) {
+      if (result[0].pwd === pwd) {
         ctx.cookies.set('username', data.phone, {maxAge: 1000*60*60*24});
         ctx.redirect('/homePage');
       } else {
